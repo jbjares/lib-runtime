@@ -4,8 +4,9 @@ import de.difuture.ekut.pht.lib.data.DockerContainerId
 import de.difuture.ekut.pht.lib.data.DockerContainerOutput
 import de.difuture.ekut.pht.lib.data.DockerImageId
 import de.difuture.ekut.pht.lib.data.DockerNetworkId
-import de.difuture.ekut.pht.lib.runtime.interrupt.InterruptHandler
 import de.difuture.ekut.pht.lib.runtime.RuntimeClient
+import de.difuture.ekut.pht.lib.runtime.interrupt.InterruptHandler
+import de.difuture.ekut.pht.lib.runtime.interrupt.InterruptSignaler
 import jdregistry.client.data.DockerRepositoryName
 import jdregistry.client.data.DockerTag
 
@@ -58,6 +59,7 @@ interface DockerRuntimeClient : RuntimeClient {
         env: Map<String, String>? = null,
         networkId: DockerNetworkId? = null,
         warnings: MutableList<String>? = null,
+        interruptSignaler: InterruptSignaler<DockerContainerId>? = null,
         interruptHandler: InterruptHandler<DockerContainerId>? = null
     ): DockerContainerOutput
 
@@ -151,4 +153,15 @@ interface DockerRuntimeClient : RuntimeClient {
      *
      */
     fun images(): List<DockerImageId>
+
+    /**
+     * Logs the Docker Client in to the remote host using the provided `username` and `password`.
+     *
+     * @param username The username that is used for login
+     * @param password Password for login.
+     * @param host The host for login. If omitted, the implementor is expected to fall back to Docker Hub.
+     * @return Whether login has succeeded.
+     *
+     */
+    fun login(username: String, password: String, host: String? = null): Boolean
 }
