@@ -42,9 +42,14 @@ data class NoSuchDockerContainerException(val msg: String?, val containerId: Doc
  * @since 0.0.1
  *
  */
-data class NoSuchDockerImageException(val msg: String?, val imageId: DockerImageId) : DockerRuntimeClientException(msg) {
+data class NoSuchDockerImageException(
+    val msg: String?,
+    val imageId: DockerImageId?,
+    val repo: String?
+) : DockerRuntimeClientException(msg) {
 
-    constructor(ex: Exception, imageId: DockerImageId) : this(ex.message, imageId)
+    constructor(ex: Exception, imageId: DockerImageId) : this(ex.message, imageId, null)
+    constructor(ex: Exception, repo: String) : this(ex.message, null, repo)
 }
 
 /**
