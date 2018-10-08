@@ -5,7 +5,7 @@ configurations {
     ktlint
 }
 
-group 'de.difture.ekut.pht.lib'
+group 'de.difuture.ekut.pht.lib'
 version '0.0.5'
 
 repositories {
