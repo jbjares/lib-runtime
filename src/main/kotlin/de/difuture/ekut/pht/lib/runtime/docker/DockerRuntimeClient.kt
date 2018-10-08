@@ -5,8 +5,8 @@ import de.difuture.ekut.pht.lib.data.DockerContainerOutput
 import de.difuture.ekut.pht.lib.data.DockerImageId
 import de.difuture.ekut.pht.lib.data.DockerNetworkId
 import de.difuture.ekut.pht.lib.runtime.RuntimeClient
-import de.difuture.ekut.pht.lib.runtime.interrupt.InterruptHandler
-import de.difuture.ekut.pht.lib.runtime.interrupt.InterruptSignaler
+import de.difuture.ekut.pht.lib.runtime.docker.params.DockerCommitOptionalParameters
+import de.difuture.ekut.pht.lib.runtime.docker.params.DockerRunOptionalParameters
 import jdregistry.client.data.DockerRepositoryName
 import jdregistry.client.data.DockerTag
 
@@ -56,11 +56,7 @@ interface DockerRuntimeClient : RuntimeClient {
         imageId: DockerImageId,
         commands: List<String>,
         rm: Boolean,
-        env: Map<String, String>? = null,
-        networkId: DockerNetworkId? = null,
-        warnings: MutableList<String>? = null,
-        interruptSignaler: InterruptSignaler<DockerContainerId>? = null,
-        interruptHandler: InterruptHandler<DockerContainerId>? = null
+        optionalParams: DockerRunOptionalParameters? = null
     ): DockerContainerOutput
 
     /**
@@ -136,9 +132,7 @@ interface DockerRuntimeClient : RuntimeClient {
         containerId: DockerContainerId,
         targetRepo: DockerRepositoryName,
         targetTag: DockerTag,
-        targetHost: String? = null,
-        author: String? = null,
-        comment: String? = null
+        optionalParams: DockerCommitOptionalParameters? = null
     ): DockerImageId
 
     /**
