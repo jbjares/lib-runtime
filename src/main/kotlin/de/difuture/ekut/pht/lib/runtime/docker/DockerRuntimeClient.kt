@@ -149,18 +149,25 @@ interface DockerRuntimeClient : RuntimeClient {
     fun images(): List<DockerImageId>
 
     /**
-     * Lists the [DockerContainerId] that this [DockerRuntimeClient] has access to.
+     * Tag as a repository with another repository name
      *
-     * Resembles the `docker ps -q` command
+     * Resembles the `docker tag` command
      *
-     * *Contract:* The method should fail by throwing an exception if something prevents listing the
-     * available containers
+     * *Contract:* This method should fail by throwning an exception if something prevents the successful
+     * tagging of the image
      *
-     * @param allowedStatus The set of status that are allowed for the containers.
-     * By default, only 'exited' containers will be listed
+     * @param sourceRepo The [DockerRepositoryName] name of the source image to tag
+     * @param sourceTag The [DockerTag] from which to tag from
+     * @param targetRepo The [DockerRepositoryName] to tag to (or tag with)
+     * @param targetTag The [DockerTag] to tag to (or tag with)
      *
      */
-    fun ps(allowedStatus: Set<String> = setOf("exited")): List<DockerContainerId>
+    fun tag(
+        sourceRepo: DockerRepositoryName,
+        sourceTag: DockerTag,
+        targetRepo: DockerRepositoryName,
+        targetTag: DockerTag
+    )
 
     /**
      * Logs the Docker Client in to the remote host using the provided `username` and `password`.
