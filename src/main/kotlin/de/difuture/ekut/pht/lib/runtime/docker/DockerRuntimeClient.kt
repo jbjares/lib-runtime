@@ -62,7 +62,7 @@ interface DockerRuntimeClient : RuntimeClient {
     /**
      * Removes container with specified ID.
      *
-     * This trainCommand resembles the `data rm` trainCommand.
+     * This trainCommand resembles the `data rm` command.
      *
      * *Contract:* If something prevents the container to be removed, the method needs to fail by throwing an exception.
      *  Specifically, if the specified container does not exist,
@@ -115,7 +115,7 @@ interface DockerRuntimeClient : RuntimeClient {
     /**
      * Commits the Docker container and creates new image.
      *
-     * Resembles the `data commit` trainCommand.
+     * Resembles the `data commit` command.
      *
      * *Contract:* If the container selected via the [DockerContainerId] parameter does not exit, the method
      * should throw an [NoSuchDockerContainerException]. Otherwise, if anything else the prevents the target repo
@@ -138,7 +138,7 @@ interface DockerRuntimeClient : RuntimeClient {
     /**
      * Lists the [DockerImageId] that this [DockerRuntimeClient] has access to.
      *
-     * Resembles the `data images -q` trainCommand.
+     * Resembles the `data images -q` command.
      *
      * *Contract:* The method should fail by throwing an exception if something prevents listing the available
      * images.
@@ -147,6 +147,19 @@ interface DockerRuntimeClient : RuntimeClient {
      *
      */
     fun images(): List<DockerImageId>
+
+    /**
+     * Lists the [DockerContainerId] that this [DockerRuntimeClient] has access to.
+     *
+     * Resembles the `docker ps -q` command
+     *
+     * *Contract:* The method should fail by throwing an exception if something prevents listing the
+     * available containers
+     *
+     * @param allowedStatus The set of status that are allowed for the containers. If null, all containers
+     * will be listed
+     */
+    fun ps(allowedStatus: Set<String>? = null): List<DockerContainerId>
 
     /**
      * Logs the Docker Client in to the remote host using the provided `username` and `password`.
