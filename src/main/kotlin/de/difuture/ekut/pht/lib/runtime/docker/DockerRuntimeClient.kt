@@ -156,10 +156,11 @@ interface DockerRuntimeClient : RuntimeClient {
      * *Contract:* The method should fail by throwing an exception if something prevents listing the
      * available containers
      *
-     * @param allowedStatus The set of status that are allowed for the containers. If null, all containers
-     * will be listed
+     * @param allowedStatus The set of status that are allowed for the containers.
+     * By default, only 'exited' containers will be listed
+     *
      */
-    fun ps(allowedStatus: Set<String>? = null): List<DockerContainerId>
+    fun ps(allowedStatus: Set<String> = setOf("exited")): List<DockerContainerId>
 
     /**
      * Logs the Docker Client in to the remote host using the provided `username` and `password`.
