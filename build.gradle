@@ -50,7 +50,6 @@ publishing {
     publications {
         maven(MavenPublication) {
             from components.java
-            version '0.0.6'
             pom.withXml {
                 asNode().dependencies.'*'.findAll() {
                     it.scope.text() == 'runtime' && project.configurations.compile.allDependencies.find { dep ->
