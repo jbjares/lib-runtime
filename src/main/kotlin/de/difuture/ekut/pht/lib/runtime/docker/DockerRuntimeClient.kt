@@ -159,12 +159,14 @@ interface DockerRuntimeClient : RuntimeClient {
      * @param imageId: The [DockerImageId] used as the source for tagging
      * @param targetRepo The [DockerRepositoryName] to tag to (or tag with)
      * @param targetTag The [DockerTag] to tag to (or tag with)
+     * @param host The optional Host [String] that is to be used for tagging
      *
      */
     fun tag(
         imageId: DockerImageId,
         targetRepo: DockerRepositoryName,
-        targetTag: DockerTag
+        targetTag: DockerTag,
+        host: String? = null
     )
 
     /**
