@@ -156,15 +156,13 @@ interface DockerRuntimeClient : RuntimeClient {
      * *Contract:* This method should fail by throwning an exception if something prevents the successful
      * tagging of the image
      *
-     * @param sourceRepo The [DockerRepositoryName] name of the source image to tag
-     * @param sourceTag The [DockerTag] from which to tag from
+     * @param imageId: The [DockerImageId] used as the source for tagging
      * @param targetRepo The [DockerRepositoryName] to tag to (or tag with)
      * @param targetTag The [DockerTag] to tag to (or tag with)
      *
      */
     fun tag(
-        sourceRepo: DockerRepositoryName,
-        sourceTag: DockerTag,
+        imageId: DockerImageId,
         targetRepo: DockerRepositoryName,
         targetTag: DockerTag
     )
