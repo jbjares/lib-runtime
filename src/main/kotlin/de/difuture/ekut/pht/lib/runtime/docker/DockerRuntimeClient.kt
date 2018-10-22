@@ -9,6 +9,7 @@ import de.difuture.ekut.pht.lib.runtime.docker.params.DockerCommitOptionalParame
 import de.difuture.ekut.pht.lib.runtime.docker.params.DockerRunOptionalParameters
 import jdregistry.client.data.DockerRepositoryName
 import jdregistry.client.data.DockerTag
+import java.nio.file.Path
 
 /**
  * Docker client api that a station needs to implement for using the library components.
@@ -60,20 +61,6 @@ interface DockerRuntimeClient : RuntimeClient {
     ): DockerContainerOutput
 
     /**
-     * Removes container with specified ID.
-     *
-     * This trainCommand resembles the `data rm` command.
-     *
-     * *Contract:* If something prevents the container to be removed, the method needs to fail by throwing an exception.
-     *  Specifically, if the specified container does not exist,
-     *  the method should throw [NoSuchDockerContainerException].
-     *
-     * @param containerId The [DockerContainerId] of the container to be removed.
-     *
-     */
-    fun rm(containerId: DockerContainerId)
-
-    /**
      * Pulls the repository specified by [DockerRepositoryName] and [DockerTag].
      *
      * Resembles the `data pull` trainCommand. Unlike the Docker CLI, the dockerTag `latest` is never implied, as
@@ -113,23 +100,23 @@ interface DockerRuntimeClient : RuntimeClient {
     fun push(repo: DockerRepositoryName, tag: DockerTag, host: String? = null)
 
     /**
-     * Commits the Docker container and creates new image.
+     * Creates a new Docker image by extracting exportFiles from a container and
+     * adding those to a base image. The new repo name and tag of the image can be specified.
      *
-     * Resembles the `data commit` command.
-     *
-     * *Contract:* If the container selected via the [DockerContainerId] parameter does not exit, the method
-     * should throw an [NoSuchDockerContainerException]. Otherwise, if anything else the prevents the target repo
-     * to be created, the method should also throw an exception.
-     *
-     * @param containerId The [DockerContainerId] of the container to be commited.
-     * @param targetRepo The [DockerRepositoryName] of the Docker repository to commit to.
-     * @param targetTag The [DockerTag] that the resulting image should be tagged with.
-     * @param author
-     * @return The [DockerImageId] that points to the newly created image.
+     * @param containerId The container from which the exportFiles should be extracted
+     * @param exportFiles The list of paths of exportFiles that should be exported from the container and
+     *                    be present int the new image
+     * @param from The baseImage from which the new image should be created from
+     * @param targetRepo The [DockerRepositoryName] of the newly generated image
+     * @param targetTag The [DockerTag] of the newly generate Image
+     * @param optionalParams Optional Parameters that can be supplied to docker commit
+     * @return The [DockerImageId] of the newly generated image
      *
      */
-    fun commit(
+    fun commitByRebase(
         containerId: DockerContainerId,
+        exportFiles: List<Path>,
+        from: String,
         targetRepo: DockerRepositoryName,
         targetTag: DockerTag,
         optionalParams: DockerCommitOptionalParameters? = null

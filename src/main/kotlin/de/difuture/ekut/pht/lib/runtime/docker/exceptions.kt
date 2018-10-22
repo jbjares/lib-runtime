@@ -20,7 +20,7 @@ open class DockerRuntimeClientException(msg: String?) : Exception(msg) {
 /**
  * Exception to be thrown when the selected Docker Container does not exits.
  *
- * Typical methods that use this exception are [DockerRuntimeClient.rm] and [DockerRuntimeClient.commit].
+ * Typical methods that use this exception are [DockerRuntimeClient.rm] and [DockerRuntimeClient.commitByRebase].
  *
  * @author Lukas Zimmermann
  * @see DockerRuntimeClient

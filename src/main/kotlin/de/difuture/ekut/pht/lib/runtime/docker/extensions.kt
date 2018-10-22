@@ -6,18 +6,19 @@ import de.difuture.ekut.pht.lib.runtime.docker.params.DockerCommitOptionalParame
 import de.difuture.ekut.pht.lib.runtime.docker.params.DockerRunOptionalParameters
 import jdregistry.client.data.DockerRepositoryName
 import jdregistry.client.data.DockerTag
+import java.nio.file.Path
 
-fun DockerRuntimeClient.withDefaultRunParameters(params: DockerRunOptionalParameters): DockerRuntimeClient {
+fun DockerRuntimeClient.withDefaultRunParameters(params: DockerRunOptionalParameters): DockerRuntimeClient =
 
-    val outer = this
-    return object : DockerRuntimeClient by outer {
+    object : DockerRuntimeClient by this {
 
         override fun run(
             imageId: DockerImageId,
             commands: List<String>,
             rm: Boolean,
             optionalParams: DockerRunOptionalParameters?
-        ) = outer.run(
+        ) =
+                this@withDefaultRunParameters.run(
                 imageId,
                 commands,
                 rm,
@@ -27,25 +28,29 @@ fun DockerRuntimeClient.withDefaultRunParameters(params: DockerRunOptionalParame
                         interruptSignaler = optionalParams?.interruptSignaler ?: params.interruptSignaler,
                         interruptHandler = optionalParams?.interruptHandler ?: params.interruptHandler))
         }
-}
 
-fun DockerRuntimeClient.withDefaultCommitParameters(params: DockerCommitOptionalParameters): DockerRuntimeClient {
+fun DockerRuntimeClient.withDefaultCommitParameters(params: DockerCommitOptionalParameters): DockerRuntimeClient =
 
-    val outer = this
-    return object : DockerRuntimeClient by outer {
+    object : DockerRuntimeClient by this {
 
-        override fun commit(
+        override fun commitByRebase(
             containerId: DockerContainerId,
+            exportFiles: List<Path>,
+            from: String,
             targetRepo: DockerRepositoryName,
             targetTag: DockerTag,
             optionalParams: DockerCommitOptionalParameters?
-        ) = outer.commit(
-                containerId,
-                targetRepo,
-                targetTag,
-                DockerCommitOptionalParameters(
-                        targetHost = optionalParams?.targetHost ?: params.targetHost,
-                        author = optionalParams?.author ?: params.author,
-                        comment = optionalParams?.comment ?: params.comment))
+        ) =
+
+                this@withDefaultCommitParameters.commitByRebase(
+                        containerId = containerId,
+                        exportFiles = exportFiles,
+                        from = from,
+                        targetRepo = targetRepo,
+                        targetTag = targetTag,
+                        optionalParams = DockerCommitOptionalParameters(
+                                targetHost = optionalParams?.targetHost ?: params.targetHost,
+                                author = optionalParams?.author ?: params.author,
+                                comment = optionalParams?.comment ?: params.comment
+                        ))
     }
-}
