@@ -105,12 +105,19 @@ interface DockerRuntimeClient : RuntimeClient {
      *
      * @param containerId The container from which the exportFiles should be extracted
      * @param exportFiles The list of paths of exportFiles that should be exported from the container and
-     *                    be present int the new image
+     *                    be present int the new image. Each path object needs to be absolute
      * @param from The baseImage from which the new image should be created from
      * @param targetRepo The [DockerRepositoryName] of the newly generated image
      * @param targetTag The [DockerTag] of the newly generate Image
      * @param optionalParams Optional Parameters that can be supplied to docker commit
      * @return The [DockerImageId] of the newly generated image
+     *
+     * @throws IllegalArgumentException if at least one of the files in the exportFiles argument is not
+     *         an absolute path. The exception will also be thrown if at least one of the files
+     *         denoted by the Paths does not exist
+     * @throws NoSuchDockerContainerException if the container with the provided [DockerContainerId] does
+     *         not exist
+     * @throws NoSuchDockerImageException if the repository from 'from' does not exist
      *
      */
     fun commitByRebase(
