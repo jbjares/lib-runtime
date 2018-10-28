@@ -24,7 +24,7 @@ fun DockerRuntimeClient.withDefaultRunParameters(params: DockerRunOptionalParame
                 rm,
                 DockerRunOptionalParameters(
                         env = optionalParams?.env ?: params.env,
-                        networkId = optionalParams?.networkId ?: params.networkId,
+                        network = optionalParams?.network ?: params.network,
                         interruptSignaler = optionalParams?.interruptSignaler ?: params.interruptSignaler,
                         interruptHandler = optionalParams?.interruptHandler ?: params.interruptHandler))
         }

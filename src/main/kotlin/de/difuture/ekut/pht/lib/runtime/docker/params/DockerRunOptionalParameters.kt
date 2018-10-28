@@ -1,7 +1,6 @@
 package de.difuture.ekut.pht.lib.runtime.docker.params
 
 import de.difuture.ekut.pht.lib.data.DockerContainerId
-import de.difuture.ekut.pht.lib.data.DockerNetworkId
 import de.difuture.ekut.pht.lib.runtime.interrupt.InterruptSignaler
 import de.difuture.ekut.pht.lib.runtime.interrupt.InterruptHandler
 
@@ -15,7 +14,7 @@ import de.difuture.ekut.pht.lib.runtime.interrupt.InterruptHandler
 data class DockerRunOptionalParameters(
 
     val env: Map<String, String>? = null,
-    val networkId: DockerNetworkId? = null,
+    val network: String? = null,
     val interruptSignaler: InterruptSignaler<DockerContainerId>? = null,
     val interruptHandler: InterruptHandler<DockerContainerId>? = null
 )
