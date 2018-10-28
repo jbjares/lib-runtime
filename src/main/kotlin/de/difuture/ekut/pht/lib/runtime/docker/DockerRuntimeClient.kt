@@ -7,8 +7,8 @@ import de.difuture.ekut.pht.lib.data.DockerNetworkId
 import de.difuture.ekut.pht.lib.runtime.RuntimeClient
 import de.difuture.ekut.pht.lib.runtime.docker.params.DockerCommitOptionalParameters
 import de.difuture.ekut.pht.lib.runtime.docker.params.DockerRunOptionalParameters
-import jdregistry.client.data.DockerRepositoryName
-import jdregistry.client.data.DockerTag
+import jdregistry.client.data.RepositoryName as DockerRepositoryName
+import jdregistry.client.data.Tag as DockerTag
 import java.nio.file.Path
 
 /**
