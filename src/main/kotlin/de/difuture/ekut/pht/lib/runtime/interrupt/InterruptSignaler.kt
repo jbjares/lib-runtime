@@ -13,6 +13,8 @@ interface InterruptSignaler<in A> {
     /**
      * Signals whether object has been interrupted
      *
+     * @param obj The object for which the client wants to check whether it was interrupted
+     *
      * @return Whether object [A] has been interrupted
      *
      */

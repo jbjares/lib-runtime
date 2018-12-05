@@ -8,6 +8,16 @@ import jdregistry.client.data.RepositoryName as DockerRepositoryName
 import jdregistry.client.data.Tag as DockerTag
 import java.nio.file.Path
 
+/**
+ * Returns a new [DockerRuntimeClient] where the default parameters of the `run` command
+ * are replaced by the provided `param` object. Previous applied default run parameters
+ * are overridden.
+ *
+ * @param params The default run parameters to apply
+ *
+ * @returrn A [DockerRuntimeClient] which uses the provided default parameters for `run`
+ *
+ */
 fun DockerRuntimeClient.withDefaultRunParameters(params: DockerRunOptionalParameters): DockerRuntimeClient =
 
     object : DockerRuntimeClient by this {
@@ -29,6 +39,16 @@ fun DockerRuntimeClient.withDefaultRunParameters(params: DockerRunOptionalParame
                         interruptHandler = optionalParams?.interruptHandler ?: params.interruptHandler))
         }
 
+/**
+ * Returns a new [DockerRuntimeClient] where the default parameters of the `commit` command
+ * are replaced by the provided `param` object. Previous applied default commit parameters
+ * are overridden.
+ *
+ * @param params The default commit parameters to apply
+ *
+ * @returrn A [DockerRuntimeClient] which uses the provided default parameters for `commit`
+ *
+ */
 fun DockerRuntimeClient.withDefaultCommitParameters(params: DockerCommitOptionalParameters): DockerRuntimeClient =
 
     object : DockerRuntimeClient by this {
@@ -41,7 +61,6 @@ fun DockerRuntimeClient.withDefaultCommitParameters(params: DockerCommitOptional
             targetTag: DockerTag,
             optionalParams: DockerCommitOptionalParameters?
         ) =
-
                 this@withDefaultCommitParameters.commitByRebase(
                         containerId = containerId,
                         exportFiles = exportFiles,
