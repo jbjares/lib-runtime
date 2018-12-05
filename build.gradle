@@ -20,6 +20,11 @@ repositories {
     maven {
         url  "https://dl.bintray.com/lukaszimmermann/jdregistry"
     }
+
+    // That is where the JDregistry is currently hosted
+    maven {
+        url  "https://dl.bintray.com/lukaszimmermann/lukaszimmermann"
+    }
 }
 
 dependencies {
